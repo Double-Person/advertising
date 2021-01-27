@@ -1,0 +1,58 @@
+.over-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.over-ellipsis-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.over-ellipsis-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+
+.fl {
+	display: flex;	
+	
+}
+.fl-dir-col {
+	flex-direction: column;
+}
+
+
+.jc-between {
+	justify-content: space-between;
+}
+
+.jc-around {
+	justify-content: space-around;
+}
+
+.fl-warp{
+	flex-wrap: wrap;
+}
+.fl-nowrap{
+	flex-wrap: nowrap;
+}
+.jc-center{
+	justify-content: center;
+}
+
+.al-center{
+	align-items: center;
+}
+
