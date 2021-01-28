@@ -1,8 +1,7 @@
 <template>
 	<view class="fl jc-around tab-bar">
 		<view class="fl fl-dir-col jc-center tab-bar-item" v-for="(item, index) in list" :key="index" @click="toPage(item, index)">
-			<image v-if="active != index" :src="item.iconPath" mode=""></image>
-			<image v-if="active == index" :src="item.selectedIconPath" mode=""></image>
+			<image v-if="" :src="active == index ? item.selectedIconPath : item.iconPath" mode=""></image>
 			<text class="title" :style="{color: active == index ? selectedColor: color}">{{ item.text }}</text>
 		</view>
 	</view>
@@ -13,7 +12,7 @@
 		props: {
 			active: {
 				type: Number,
-				default: 0
+				default: -1
 			}
 		},
 		data() {

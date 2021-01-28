@@ -17,7 +17,7 @@
 				
 			</view>
 			<!-- 轮播 -->
-			<view class="page-section-spacing">
+			<view class="shuffling page-section-spacing">
 				<swiper class="swiper" indicator-dots :autoplay="true" :interval="2000" :duration="500">
 					<swiper-item v-for="item in 4" :key="item">
 						<view class="swiper-item uni-bg-red">{{ item }}</view>
@@ -52,6 +52,33 @@
 
 		</view>
 		
+		<uni-popup ref="popup" type="dialog">
+			<view class="dialog">
+				<view class="title">
+					隐私协议文字标题
+				</view>
+				<view class="content">
+					文字内容文字内容文字内容文字内容文字内容文字文字内容
+					文字内容文字内容文字内容文字内容文字内容文字文字内文
+					字内容文字文字内容文字内容文字内容内容文字内容文字文
+					字内容文字内容文字内容文字内容文字内容文字文字内容文
+					字内容文字文字内容文字内容文字内容内容文字内
+					文字内容文字内容文字内容文字内容文字内容文字文字内容
+					文字内容文字文字内容文字内容文字内容内容文字内容文字
+					文字内容文字内容文字内容文字内容文字内容文字文字内文
+					字内容文字文字内容
+				</view>
+			
+				<view class="fl jc-between bottom">
+					
+					<navigator open-type="exit">
+						<view class="not-agree is-agree">不同意</view>
+					</navigator>
+					<view class="agree is-agree" @click="close">同意</view>
+				</view>
+			</view>
+		</uni-popup>
+		
 		<customTabBar :active="0" />
 	</view>
 </template>
@@ -59,10 +86,20 @@
 <script>
 	import uniSearchBar from "@/components/uni-search-bar/uni-search-bar.vue"
 	import customTabBar from "@/components/customTabBar/customTabBar.vue"
+	
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
+	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
+	
+	
 	export default {
 		components: {
 			uniSearchBar,
-			customTabBar
+			customTabBar,
+			
+			 uniPopup,
+			uniPopupMessage,
+			uniPopupDialog
 		},
 		data() {
 			return {
@@ -70,9 +107,15 @@
 			}
 		},
 		onLoad() {
+			this.$nextTick(() =>{
+				this.$refs.popup.open()
+			})
 			
 		},
 		methods: {
+			close(){
+			         this.$refs.popup.close()
+			      },
 			search(value) {
 				console.log(value)
 			},
@@ -80,12 +123,59 @@
 				uni.navigateTo({
 					url: '../communityAdvertising/communityAdvertising'
 				})
-			}
+			},
+			
+			
+		
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.dialog{
+		width: 527rpx;
+		// height: 710rpx;
+		background: #FFFFFF;
+		box-shadow: 0px 0px 32rpx 0px rgba(117, 117, 117, 0.56);
+		border-radius: 10rpx;
+		padding: 49rpx 55rpx 62rpx 55rpx;
+		.title{
+			text-align: center;
+			font-size: 40rpx;
+			font-weight: 800;
+			color: #2E2E2E;
+			margin-bottom: 45rpx;
+		}
+		.content{
+			font-size: 16rpx;
+			font-weight: 400;
+			color: #2E2E2E;
+			line-height: 36rpx;
+
+		}
+		.bottom{
+			margin-top: 49rpx;
+			.is-agree{
+				text-align: center;
+				height: 70rpx;
+				line-height: 70rpx;
+				width: 200rpx;
+				
+				font-size: 30rpx;
+				font-weight: 800;
+				border-radius: 10rpx;
+
+			}
+			.not-agree{
+				border: 2rpx solid #8B8B8B;
+				color: #8B8B8B;
+			}
+			.agree{
+				color: $main-theme-color;
+				border: 2rpx solid $main-theme-color;
+			}
+		}
+	}
 	.status_bar {
 		height: var(--status-bar-height);
 		width: 100%;
@@ -115,20 +205,6 @@
 		}
 	}
 
-	/deep/ .page-section-spacing {
-		width: 100%;
-		height: 343rpx;
-		.uni-swiper-dot {
-			background: rgba(254, 69, 85, .5);
-			
-			width: 50rpx;
-			height: 10rpx;
-			border-radius: 30%;
-		}
-		.uni-swiper-dot-active {
-			background: rgb(254, 69, 85);
-		}
-	}
 	
 	.tips {
 		width: 668rpx;

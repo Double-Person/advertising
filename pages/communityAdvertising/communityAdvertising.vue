@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 广告社区 -->
-		<view v-for="item in 3" :key="item" class="advertising-item">
+		<view v-for="item in 3" :key="item" class="advertising-item" @click="toPath()">
 			<advertisingItem />
 		</view>
 		
@@ -22,7 +22,11 @@
 		},
 		
 		methods: {
-			
+			toPath() {
+				uni.navigateTo({
+					url: '../details/details'
+				})
+			}
 		}
 	}
 </script>

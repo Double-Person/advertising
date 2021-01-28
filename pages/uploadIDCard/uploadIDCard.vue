@@ -2,13 +2,13 @@
 	<view class="publish-form">
 		
 		<view class="fl fl-nowrap al-center item">
-			<text class="label">场地照片/广告位照片：</text>
+			<text class="common-form-label label">场地照片/广告位照片：</text>
 			<view class="">
 				126*126
 			</view>
 		</view>
 		
-		<view class="btn">
+		<view class="common-btn btn">
 			提交
 		</view>
 		
@@ -36,23 +36,13 @@
 		.item{
 			margin-top: 35rpx;
 			.label{
-				font-size: 26rpx;
-				color: #333333;
-				width: 170rpx;
+				width: 300rpx;
 			}
 			
 		}
 	
 		.btn{
 			margin: 257rpx auto 0 auto;
-			width: 653rpx;
-			height: 80rpx;
-			line-height: 80rpx;
-			text-align: center;
-			background: #A80404;
-			border-radius: 10rpx;
-			font-size: 30rpx;
-			color: #FFFEFE;
 		}
 	}
 

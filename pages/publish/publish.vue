@@ -1,30 +1,32 @@
 <template>
 	<view class="publish-form">
 		<view class="fl fl-nowrap al-center item">
-			<text class="label">选择分类：</text>
+			<text class="common-form-label label">选择分类：</text>
 			<input class="uni-input input" maxlength="10" placeholder="最大输入长度为10" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
-			<text class="label">填写详情：</text>
+			<text class="common-form-label label">填写详情：</text>
 			<textarea auto-height placeholder="最大输入长度为10" class="textarea" />
 		</view>
 		
 		<view class="fl fl-nowrap al-center item">
-			<text class="label">填写地址：</text>
+			<text class="common-form-label label">填写地址：</text>
 			<input class="uni-input input" maxlength="10" placeholder="最大输入长度为10" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
-			<text class="label">填写价格：</text>
+			<text class="common-form-label label">填写价格：</text>
 			<input class="uni-input input" maxlength="10" placeholder="最大输入长度为10" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
-			<text class="label">上传图片：</text>
+			<text class="common-form-label label">上传图片：</text>
 			<view class="">
 				126*126
 			</view>
 		</view>
 		
-		<view class="btn">
+		
+		
+		<view class="common-btn btn">
 			立即发布
 		</view>
 		
@@ -35,6 +37,7 @@
 
 <script>
 	export default {
+		
 		data() {
 			return {
 				
@@ -48,9 +51,11 @@
 
 <style lang="scss" scoped>
 	.publish-form{
-		padding: 0 27rpx 0 17rpx;
+		
 		.item{
 			margin-top: 35rpx;
+			padding: 0 27rpx 0 17rpx;
+			width: 706rpx;
 			.label{
 				font-size: 26rpx;
 				color: #333333;
@@ -73,17 +78,11 @@
 			}
 		}
 	
-		.btn{
+	
+		.btn {
 			margin: 257rpx auto 0 auto;
-			width: 653rpx;
-			height: 80rpx;
-			line-height: 80rpx;
-			text-align: center;
-			background: #A80404;
-			border-radius: 10rpx;
-			font-size: 30rpx;
-			color: #FFFEFE;
 		}
+		
 	}
 
 </style>
