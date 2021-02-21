@@ -6,80 +6,64 @@
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/publish/publish",
+			"style": {
+				"navigationBarTitleText": "发布",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/communityAdvertising/communityAdvertising",
+			"style": {
+				"navigationBarTitleText": "社区广告",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/releaseCertification/releaseCertification",
+			"style": {
+				"navigationBarTitleText": "发布认证",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/uploadIDCard/uploadIDCard",
+			"style": {
+				"navigationBarTitleText": "上传身份证",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/withdrawal/withdrawal",
+			"style": {
+				"navigationBarTitleText": "立即提现",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/withdrawalHandel/withdrawalHandel",
+			"style": {
+				"navigationBarTitleText": "提现",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/details/details",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/publish/publish",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "发布",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/mine",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "个人中心",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/communityAdvertising/communityAdvertising",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "社区广告",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/releaseCertification/releaseCertification",
-            "style" :                                                                                    
-           {
-               "navigationBarTitleText": "发布认证",
-               "enablePullDownRefresh": false
-           }
-            
-        }
-        ,{
-            "path" : "pages/uploadIDCard/uploadIDCard",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "上传身份证",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/withdrawal/withdrawal",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "立即提现",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/withdrawalHandel/withdrawalHandel",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "提现",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/details/details",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	// "tabBar": {
 	//     "color": "#9C9C9C",
 	//     "selectedColor": "#A80404",

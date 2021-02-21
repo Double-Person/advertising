@@ -13,19 +13,22 @@
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">营业执照：</text>
 			<view class="">
-				126*126
+				<!-- 126*126 -->
+				<up-load-file @success="success" />
 			</view>
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">发布者照片：</text>
 			<view class="">
-				126*126
+				<!-- 126*126 -->
+				<up-load-file @success="success" />
 			</view>
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label img-label">场地照片/广告位照片：</text>
 			<view class="">
-				126*126
+				<!-- 126*126 -->
+				<up-load-file @success="success" />
 			</view>
 		</view>
 		
@@ -39,14 +42,20 @@
 </template>
 
 <script>
+	import upLoadFile from '@/components/upLoadFile.vue'
 	export default {
+		components:{
+			upLoadFile
+		},
 		data() {
 			return {
 				
 			}
 		},
 		methods: {
-			
+			success(res) {
+				console.log(res)
+			}
 		}
 	}
 </script>

@@ -14,7 +14,7 @@
 <script>
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.comment{
 		margin-top: 22rpx;
 	}

@@ -63,7 +63,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.bg-color {
 		height: calc(100vh - 122rpx);
 	}

@@ -20,7 +20,8 @@
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">上传图片：</text>
 			<view class="">
-				126*126
+				<!-- 126*126 -->
+				<up-load-file />
 			</view>
 		</view>
 		
@@ -36,8 +37,11 @@
 </template>
 
 <script>
+	import upLoadFile from '@/components/upLoadFile.vue'
 	export default {
-		
+		components:{
+			upLoadFile
+		},
 		data() {
 			return {
 				
