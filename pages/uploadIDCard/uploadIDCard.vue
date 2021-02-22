@@ -5,7 +5,7 @@
 			<text class="common-form-label label">场地照片/广告位照片：</text>
 			<view class="">
 				<!-- 126*126 -->
-				<up-load-file />
+				<up-load-file @success="success" />
 			</view>
 		</view>
 		
@@ -30,7 +30,9 @@
 			}
 		},
 		methods: {
-			
+			success() {
+				
+			}
 		}
 	}
 </script>

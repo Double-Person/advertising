@@ -2,11 +2,11 @@
 	<view class="publish-form">
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">小区名称：</text>
-			<input class="uni-input input" maxlength="10" placeholder="最大输入长度为10" />
+			<input class="uni-input input" maxlength="10" placeholder="最大输入长度为10" placeholder-class="placeholder-class"  />
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">物业名称：</text>
-			<textarea auto-height placeholder="最大输入长度为10" class="textarea" />
+			<input class="uni-input input" maxlength="10" placeholder="最大输入长度为10" placeholder-class="placeholder-class"  />
 		</view>
 		
 		
@@ -63,8 +63,13 @@
 <style lang="scss" scoped>
 	.publish-form{
 		padding: 0 27rpx 0 17rpx;
+		background: rgb(241, 241, 241);
 		.item{
-			margin-top: 35rpx;
+			// margin-top: 35rpx;
+			margin-bottom: 35rpx;
+			&:first-child{
+				padding-top: 35rpx;
+			}
 			.label{
 				width: 170rpx;
 			}

@@ -1,29 +1,39 @@
 <template>
-	<view class="bg-color">
-		<view class="top-Bar"></view>
-		<view class="fl al-center heade-info">
-			<image class="avatar" src="/static/image/tabBar/mine.png" mode=""></image>
-			<view class="login-register">
-				登录/注册
-			</view>
-		</view>
-
-		<view class="meau">
-			<view v-for="(item,index) in meau" :key="index" class="fl al-center jc-between meau-item" @click="toPath(item.path)">
-				<view class="icon-title">
-					<image class="icon" :src="item.icon" mode=""></image>
-					<text>{{item.title}}</text>
+	<view class="warp">
+		<view class="bg-color">
+			<view class="top-Bar"></view>
+			<view class="fl al-center heade-info">
+				<image class="avatar" src="/static/image/tabBar/mine.png" mode=""></image>
+				<view class="login-register">
+					登录/注册
 				</view>
-				<image class="black" src="/static/image/mine/back.png" mode=""></image>
+			</view>
+		
+			<view class="meau">
+				<view v-for="(item,index) in meau" :key="index" class="fl al-center jc-between meau-item" @click="toPath(item.path)">
+					<view class="icon-title">
+						<image class="icon" :src="item.icon" mode=""></image>
+						<text>{{item.title}}</text>
+					</view>
+					<image class="black" src="/static/image/mine/back.png" mode=""></image>
+				</view>
+			</view>
+		
+			<!-- <uni-popup ref="popup" type="share">
+			    <uni-popup-share title="分享到" @select="select"></uni-popup-share>
+			</uni-popup> -->
+		
+			<customTabBar :active="2" />
+		</view>
+	
+		<view class="warp-mask" @click="isShow" v-if="isShowMask">
+			<image src="/static/image/mine/arrow@2x.png" mode="" class="arrow"></image>
+			<view class="share-warp">
+				微信分享得“优惠券”，分享人数与面额为：分享1人得10元（满100可用）。使用方法付款时，点击“我的优惠券”，点击“优惠券面额”选择大小，用户每次消费只能消耗一张优惠券
 			</view>
 		</view>
-		
-		<!-- <uni-popup ref="popup" type="share">
-		    <uni-popup-share title="分享到" @select="select"></uni-popup-share>
-		</uni-popup> -->
-
-		<customTabBar :active="2" />
 	</view>
+	
 </template>
 
 <script>
@@ -31,13 +41,14 @@
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	export default {
-		 components: {
-		        uniPopup,
-		        uniPopupMessage,
-		        uniPopupDialog
-		    },
+		components: {
+			uniPopup,
+			uniPopupMessage,
+			uniPopupDialog
+		},
 		data() {
 			return {
+				isShowMask: true,
 				meau: [{
 						icon: require('static/image/mine/card.png'),
 						title: '我的账户',
@@ -51,19 +62,54 @@
 			}
 		},
 		methods: {
+			isShow() {
+				this.isShowMask = false
+			},
 			toPath(url) {
 				if (!url) {
 					return false;
 				}
-				uni.navigateTo({
-					url
-				})
+				uni.navigateTo({ url })
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.warp{
+		position: relative;
+	}
+	.warp-mask{
+		position: fixed;
+		top: 0;
+		z-index: 3;
+		width: 100%;
+		height: 100vh;
+		background: #333333;
+		opacity: 0.34;
+		.arrow{
+			position: absolute;
+			right: 158rpx;
+			width: 96rpx;
+			height: 626rpx;
+		}
+		.share-warp{
+			position: relative;
+			top: 590rpx;
+			width: 447rpx;
+			height: 325rpx;
+			background: rgb(166, 166, 166);
+			border-radius: 50%;
+			padding: 90rpx 70rpx 70rpx 70rpx;
+			margin: 0 auto;
+			
+	
+			font-size: 30rpx;
+			line-height: 48rpx;
+			font-weight: bold;
+			color: #FFFFFF;
+		}
+	}
 	.bg-color {
 		height: calc(100vh - 122rpx);
 	}

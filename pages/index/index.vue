@@ -190,6 +190,7 @@
 	.status_bar {
 		height: var(--status-bar-height);
 		width: 100%;
+		background: $main-theme-color;
 	}
 
 	.warp {
@@ -200,7 +201,7 @@
 	.top-bar {
 		height: 189rpx;
 		width: 100%;
-		background: #A80404;
+		background: $main-theme-color;
 
 		.location {
 			margin-left: 22rpx;
@@ -262,7 +263,7 @@
 			}
 
 			.management {
-				color: #A80404;
+				color: $main-theme-color;
 			}
 
 			.classroom {
