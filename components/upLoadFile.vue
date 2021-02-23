@@ -9,6 +9,7 @@
 </template>
 
 <script>
+	import {upLoadFile} from "@/api/api.js"
 	export default {
 		data() {
 			return {
@@ -21,20 +22,9 @@
 					success: (chooseImageRes) => {
 						const tempFilePaths = chooseImageRes.tempFilePaths;
 						this.img = tempFilePaths[0];
-						this.$emit('success', 'success')
-						return false;
-						uni.uploadFile({
-							url: 'https://www.example.com/upload', //仅为示例，非真实的接口地址
-							filePath: tempFilePaths[0],
-							name: 'file',
-							formData: {
-								'user': 'test'
-							},
-							success: (uploadFileRes) => {
-								console.log(uploadFileRes.data);
-
-							}
-						});
+						upLoadFile({path: tempFilePaths[0]}).then(res => {
+							this.$emit('success', res)
+						})
 					}
 				});
 			}

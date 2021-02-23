@@ -1,17 +1,24 @@
 <template>
 	<view class="fl comment">
-		<image class="avatar" src="/static/image/tabBar/mine.png" mode=""></image>
+		<image class="avatar" :src="evaluation.avatar" mode=""></image>
 		<view class="content">
-			<view class="over-ellipsis nickname">头像昵称名字</view>
+			<view class="over-ellipsis nickname">{{evaluation.nickname}}</view>
 			<view class="info">
-				留言栏量阿英撒呢过个啊呜诶规划委噶忘了改哈维
-				还是沟通is和人工耳输入...  
+				{{evaluation.content}} 
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	export default{
+		props:{
+			evaluation: {
+				type: Object,
+				default: () => {}
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

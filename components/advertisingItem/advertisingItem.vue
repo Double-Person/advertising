@@ -1,12 +1,18 @@
 <template>
 	<view class="management-img">
-		<image src="/static/image/index/classroom.png" mode=""></image>
-		<view class="over-ellipsis img-tips">啦啦啦啦啦啦啦啦啦啦</view>
+		<image :src="item.images && item.images.length ? item.images[0] : '/static/image/index/classroom.png'" mode=""></image>
+		<view class="over-ellipsis img-tips">{{ item.content }}</view>
 	</view>
 </template>
 
 <script>
 	export default {
+		props:{
+			item: {
+				type: Object,
+				default: () => {}
+			}
+		},
 		data() {
 			return {
 				

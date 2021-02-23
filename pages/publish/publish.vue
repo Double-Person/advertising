@@ -4,22 +4,22 @@
 			<text class="common-form-label label">选择分类：</text>
 			<!-- <input class="" maxlength="10" placeholder="最大输入长度为10" placeholder-class="placeholder-class" /> -->
 			<view class="uni-input input fl jc-between al-center select" @click="selectOption">
-				<text>最大输入长度为</text>
+				<text>{{ checkText }}</text>
 				<image src="/static/image/select.png" mode=""></image>
 			</view>
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">填写详情：</text>
-			<textarea auto-height placeholder="请填写广告详情" class="textarea" placeholder-class="placeholder-class" />
+			<textarea auto-height placeholder="请填写广告详情" class="textarea" placeholder-class="placeholder-class" v-model="form.content" />
 		</view>
 		
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">填写地址：</text>
-			<input class="uni-input input" maxlength="10" placeholder="请填写地址" placeholder-class="placeholder-class" />
+			<input class="uni-input input" maxlength="10" placeholder="请填写地址" placeholder-class="placeholder-class" v-model="form.address" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">填写价格：</text>
-			<input class="uni-input input" maxlength="10" placeholder="请填写价格" placeholder-class="placeholder-class" />
+			<input class="uni-input input" maxlength="10" placeholder="请填写价格" placeholder-class="placeholder-class" v-model.number="form.price" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">上传图片：</text>
@@ -32,7 +32,7 @@
 		
 		
 		
-		<view class="common-btn btn">
+		<view class="common-btn btn" @click="_add_ad">
 			立即发布
 		</view>
 		
@@ -42,29 +42,65 @@
 </template>
 
 <script>
-	import upLoadFile from '@/components/upLoadFile.vue'
+	import upLoadFile from '@/components/upLoadFile.vue';
+	
+	import { adType, add_ad } from "@/api/api.js"
 	export default {
 		components:{
 			upLoadFile
 		},
 		data() {
 			return {
-				
+				checkText: '请选择分类',
+				imgs: [],
+				list: [],
+				form: {
+					type_id: '',
+					content: '',
+					images: '',
+					price: '',
+					address: '',
+					lng: '',
+					lat: '' // location
+				}
+			}
+		},
+		onLoad() {
+			this._adType()
+			
+			try{
+				let point = uni.getStorageSync('location');
+				this.form.lng = point.longitude;
+				this.form.lat = point.latitude;
+			}catch(e){
+				//TODO handle the exception
 			}
 		},
 		methods: {
-			success() {
+			// 文件上传
+			success(val) {
 				
 			},
+			// 发布广告
+			_add_ad() {
+				add_ad().then(res => {
+					
+				})
+			},
+			// 获取分类列表
+			_adType() {
+				adType().then(res => this.list = res)
+			},
+			// 分类选择
 			selectOption() {
 				uni.showActionSheet({
-				    itemList: ['A', 'B', 'C'],
-				    success: function (res) {
-				        console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+				    itemList: this.list.map(ele => ele.name),
+				    success: (res) => {
+						let { id, name } = this.list[res.tapIndex];
+						this.checkText = name;
+						this.form.type_id = id
 				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
+				  
 				});
 			}
 		}

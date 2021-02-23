@@ -8,15 +8,11 @@
 			<view class="top-bar">
 				<view class="fl al-center location">
 					<image src="/static/image/index/point.png" mode=""></image>
-					<text>北京站</text>
+					<text>{{ point.city }}</text>
 				</view>
 
 				<view class="">
-					<uni-search-bar 
-						:radius="100" 
-						@confirm="search" 
-						placeholder="点击搜索" 
-						cancelButton="none">
+					<uni-search-bar :radius="100" @confirm="search" placeholder="点击搜索" cancelButton="none">
 					</uni-search-bar>
 				</view>
 
@@ -24,8 +20,10 @@
 			<!-- 轮播 -->
 			<view class="shuffling page-section-spacing">
 				<swiper class="swiper" indicator-dots :autoplay="true" :interval="2000" :duration="500">
-					<swiper-item v-for="item in 4" :key="item">
-						<view class="swiper-item uni-bg-red">{{ item }}</view>
+					<swiper-item v-for="item in bannerList" :key="item.id">
+						<view class="swiper-item uni-bg-red">
+							<image :src="item.image" mode="" class="banner-img"></image>
+						</view>
 					</swiper-item>
 
 				</swiper>
@@ -38,13 +36,9 @@
 
 			<!-- 社区广告  物业广告 -->
 			<view class="fl jc-around modul">
-				<view class="modul-item fl al-center" @click="toCommunity">
-					<image src="/static/image/index/management.png" mode=""></image>
-					<text class="management">社区广告</text>
-				</view>
-				<view class="modul-item fl al-center">
-					<image src="/static/image/index/classroom.png" mode=""></image>
-					<text class="classroom">物业广告</text>
+				<view class="modul-item fl al-center" @click="toCommunity(item)" v-for="item in adTypeList" :key="item.id">
+					<image :src="handImgUrls(item.image)" mode=""></image>
+					<text class="management">{{ item.name }}</text>
 				</view>
 			</view>
 
@@ -80,56 +74,193 @@
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 
+	import {
+		adType,
+		lists,
+		announcement,
+		xieyi,
+		search
+	} from "@/api/api.js"
+	import {
+		handImgUrl
+	} from '@/utils/utils.js'
 
 	export default {
 		components: {
 			uniSearchBar,
 			customTabBar,
-
 			uniPopup,
 			uniPopupMessage,
 			uniPopupDialog
 		},
 		data() {
 			return {
-				notice: '公告栏文字文字文字文字公告栏文字文字文字文字文字文字公文字文字文字',
-				popup:{
-					title: '隐私协议文字标题',
-					content:`文字内容文字内容文字内容文字内容文字内容文字文字内容
-						文字内容文字内容文字内容文字内容文字内容文字文字内文
-						字内容文字文字内容文字内容文字内容内容文字内容文字文
-						字内容文字内容文字内容文字内容文字内容文字文字内容文
-						字内容文字文字内容文字内容文字内容内容文字内文字内容
-						文字内容文字内容文字内容文字内容文字文字内容文字内容
-						文字文字内容文字内容文字内容内容文字内容文字文字内容
-						文字内容文字内容文字内容文字内容文字文字内文字内容文字文字内容`,
+				key: 'f0d8604522a34fea7af419d353f98e8f',
+				adTypeList: [],
+				bannerList: [],
+				notice: '',
+				point: {}, // 104.064945,30.570231
+				agreements: {},
+				popup: { // // 协议
+					title: '',
+					content: ``,
 				}
-				
 			}
 		},
 		onLoad() {
+			this.initPage()
 			this.$nextTick(() => {
-				this.$refs.popup.open()
+				// this.$refs.popup.open()
 			})
-
 		},
 		methods: {
+			initPage() {
+				// this.appLoginWx()
+				this.getPoint()
+				Promise.all([adType(), lists(), announcement(), xieyi()]).then(res => { // adType, lists,announcement, xieyi
+					let [adTypeList, bannerList, notice, popup] = res;
+					this.adTypeList = adTypeList
+					this.bannerList = bannerList
+					this.notice = notice
+					this.popup = popup
+				})
+
+			},
+			// 授权登录
+			appLoginWx() {
+				// #ifdef MP-WEIXIN
+				uni.getProvider({
+					service: 'oauth',
+					success: function(res) {
+						if (~res.provider.indexOf('weixin')) {
+							uni.login({
+								provider: 'weixin',
+								success: (res2) => {
+									console.log(res2)
+									uni.getUserInfo({
+										provider: 'weixin',
+										success: (info) => { //这里请求接口
+											console.log(res2);
+											console.log(info);
+										},
+										fail: (err) => {
+											uni.showToast({ title: "微信登录授权失败", icon: "none" });
+										}
+									})
+
+								},
+								fail: () => {
+									uni.showToast({ title: "微信登录授权失败", icon: "none" });
+								}
+							})
+
+						} else {
+							uni.showToast({
+								title: '请先安装微信或升级版本',
+								icon: "none"
+							});
+						}
+					}
+				});
+				//#endif
+			},
+			handImgUrls(url) {
+				return handImgUrl(url)
+			},
 			// 关闭弹窗
 			close() {
 				this.$refs.popup.close()
 			},
 			// 搜索
 			search(value) {
-				console.log(value)
+				let obj = {
+					key: value,
+					limit: 10,
+					page: 1,
+					lng: this.point.longitude,
+					lat: this.point.latitude
+				}
+				search(obj).then(res => console.log(res))
 			},
 			// 社区广告
-			toCommunity() {
+			toCommunity(item) {
+				if(!item.id) {
+					return false;
+				}
+				let query = {
+					type_id: item.id,
+					name: item.name,
+					lng: this.point.longitude,
+					lat: this.point.latitude
+				}
 				uni.navigateTo({
-					url: '../communityAdvertising/communityAdvertising'
+					url: '../communityAdvertising/communityAdvertising?query=' + JSON.stringify(query)
+				})
+
+			},
+			// 获取位置
+			getPoint() {
+				// #ifdef MP-WEIXIN
+				this.getLocation()
+				// #endif
+
+				// #ifdef H5
+				this.loactionH5()
+				// #endif
+			},
+			// 小程序获取位置
+			getLocation() {
+				uni.getLocation({
+					type: 'wgs84',
+					success: (res) => {
+						this.conversionPoint(res)
+					}
+				});
+			},
+			// h5公众号定位
+			loactionH5() {
+				console.log('h5')
+				uni.getLocation({
+					type: 'gcj02',
+					success: (res) => {
+						this.conversionPoint(res)
+					},
+					fail(err) {
+						console.log(err)
+						uni.showToast({
+							title: '定位失败',
+							icon: 'none'
+						})
+					},
+
+				});
+			},
+			// 经纬度转坐标位置
+			conversionPoint(res) {
+				uni.setStorageSync('location', res)
+				uni.request({
+					url: "https://restapi.amap.com/v3/geocode/regeo?parameters",
+					method: 'GET',
+					data: {
+						key: this.key,
+						location: `${res.longitude}, ${res.latitude}`
+					},
+					success: (data) => {
+						let {
+							city,
+							district,
+							province
+						} = data.data.regeocode.addressComponent;
+						this.point = {
+							city,
+							district,
+							province,
+							longitude: res.longitude,
+							latitude: res.latitude,
+						}
+					}
 				})
 			},
-
-
 
 		}
 	}

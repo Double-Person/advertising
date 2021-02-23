@@ -1,11 +1,13 @@
 
 let needLoadingRequestCount = 0;
 let loadingTimer;
-export function showLoading(title = '', mask = true) {
+export function showLoading(title = '加载中', mask = true,duration = 2000) {
+	// console.log('++' ,needLoadingRequestCount)
 	if (needLoadingRequestCount === 0) {
 		uni.showLoading({
 			title,
-			mask
+			mask,
+			duration
 		});
  
 		// 最长10s自动关闭
@@ -21,6 +23,7 @@ export function showLoading(title = '', mask = true) {
  
 // 隐藏遮罩
 export function hideLoading() {
+	// console.log('---' ,needLoadingRequestCount)
 	if (needLoadingRequestCount <= 0) return;
  
 	needLoadingRequestCount--;
