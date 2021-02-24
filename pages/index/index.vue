@@ -11,8 +11,8 @@
 					<text>{{ point.city }}</text>
 				</view>
 
-				<view class="">
-					<uni-search-bar :radius="100" @confirm="search" placeholder="点击搜索" cancelButton="none">
+				<view class="" @click="search">
+					<uni-search-bar :radius="100" placeholder="点击搜索" cancelButton="none">
 					</uni-search-bar>
 				</view>
 
@@ -117,7 +117,7 @@
 			initPage() {
 				// this.appLoginWx()
 				this.getPoint()
-				Promise.all([adType(), lists(), announcement(), xieyi()]).then(res => { // adType, lists,announcement, xieyi
+				Promise.all([adType(), lists(), announcement(), xieyi()]).then(res => {
 					let [adTypeList, bannerList, notice, popup] = res;
 					this.adTypeList = adTypeList
 					this.bannerList = bannerList
@@ -172,26 +172,20 @@
 				this.$refs.popup.close()
 			},
 			// 搜索
-			search(value) {
-				let obj = {
-					key: value,
-					limit: 10,
-					page: 1,
-					lng: this.point.longitude,
-					lat: this.point.latitude
-				}
-				search(obj).then(res => console.log(res))
+			search() {
+				uni.navigateTo({
+					url: '../communityAdvertising/communityAdvertising?search=search'
+				})
 			},
 			// 社区广告
 			toCommunity(item) {
+				console.log(item)
 				if(!item.id) {
 					return false;
 				}
 				let query = {
 					type_id: item.id,
 					name: item.name,
-					lng: this.point.longitude,
-					lat: this.point.latitude
 				}
 				uni.navigateTo({
 					url: '../communityAdvertising/communityAdvertising?query=' + JSON.stringify(query)
@@ -214,6 +208,12 @@
 					type: 'wgs84',
 					success: (res) => {
 						this.conversionPoint(res)
+					},
+					fail() {
+						uni.showToast({
+							title: '定位失败，请检查是否开启定位',
+							icon: 'none'
+						})
 					}
 				});
 			},
@@ -226,9 +226,8 @@
 						this.conversionPoint(res)
 					},
 					fail(err) {
-						console.log(err)
 						uni.showToast({
-							title: '定位失败',
+							title: '定位失败，请检查是否开启定位',
 							icon: 'none'
 						})
 					},

@@ -30,6 +30,9 @@ export const addComment = data => ajax({ url: '/api/ad/add_comment', data, metho
 // GET 发布广告 /api/ad/add_ad
 export const add_ad = data => ajax({ url: '/api/ad/add_ad', data, method: 'GET', isLogin: true });
 
+// GET 提交认证 /api/user/submit_auth
+export const submitAuth = data => ajax({ url: '/api/user/submit_auth', data, method: 'GET', isLogin: true });
+
 export const upLoadFile = (option) => {
 	if(!option.path) {
 		throw new TypeError('文件上传路径不能为空')

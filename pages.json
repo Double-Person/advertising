@@ -63,7 +63,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/coupons/coupons",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "优惠券",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	// "tabBar": {
 	//     "color": "#9C9C9C",
 	//     "selectedColor": "#A80404",

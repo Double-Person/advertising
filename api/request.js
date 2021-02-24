@@ -24,11 +24,11 @@ export const ajax = (option) => {
 	}
 	return new Promise((resolve, reject) => {
 		if (option.isLogin) {
-			console.log('需要登录')
+			// console.log('需要登录')
 			// toIndex()
 			// return false
 		} else {
-			console.log('不需要登录')
+			// console.log('不需要登录')
 		}
 		let token = null;
 		token = '328b0858-aa1a-409c-a7e5-89f45495229d'

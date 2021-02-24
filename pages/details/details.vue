@@ -56,7 +56,7 @@
 		data() {
 			return {
 				query: {
-					limit: 10,
+					limit: 100,
 					page: 1,
 					id: 1,
 				},
@@ -68,6 +68,10 @@
 			this.query.id = opt.id;
 			this._detail()
 		},
+		// onReachBottom() {
+		// 	this.query.page += 1;
+		// 	this._detail()
+		// },
 		methods: {
 			_detail() {
 				detail(this.query).then(res => this.info = res)
