@@ -33,6 +33,10 @@ export const add_ad = data => ajax({ url: '/api/ad/add_ad', data, method: 'GET',
 // GET 提交认证 /api/user/submit_auth
 export const submitAuth = data => ajax({ url: '/api/user/submit_auth', data, method: 'GET', isLogin: true });
 
+// GET 获取我的优惠券 /api/coupon/my_coupon
+export const myCoupon = data => ajax({ url: '/api/coupon/my_coupon', data, method: 'GET', isLogin: true });
+
+
 export const upLoadFile = (option) => {
 	if(!option.path) {
 		throw new TypeError('文件上传路径不能为空')
