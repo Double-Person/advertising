@@ -45,10 +45,13 @@
 	import upLoadFile from '@/components/upLoadFile.vue';
 	
 	import { adType, add_ad } from "@/api/api.js"
+	
+	import mixin from "@/mixin/mixin.js"
 	export default {
 		components:{
 			upLoadFile
 		},
+		mixins: [mixin],
 		data() {
 			return {
 				checkText: '请选择分类',
@@ -66,7 +69,7 @@
 			}
 		},
 		onLoad() {
-			this._adType()
+			this._adType();
 			
 			try{
 				let point = uni.getStorageSync('location');
@@ -82,9 +85,28 @@
 				
 			},
 			// 发布广告
-			_add_ad() {
-				add_ad().then(res => {
+			async _add_ad() {
+				if(!this.form.lat) {
+					await uni.showToast({
+						title: '请打开手机定位',
+						icon: 'none'
+					})
+					await this.getPoint();
 					
+					try{
+						let location = await uni.getStorageSync('location');
+						this.form.lng = location.longitude;
+						this.form.lat = location.latitude;
+					}catch(e){
+						await uni.showToast({
+							title: '请打开手机定位',
+							icon: 'none'
+						})
+					}
+					return false
+				}
+				await add_ad(this.form).then(res => {
+					console.log(res)
 				})
 			},
 			// 获取分类列表

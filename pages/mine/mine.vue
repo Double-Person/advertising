@@ -3,9 +3,11 @@
 		<view class="bg-color">
 			<view class="top-Bar"></view>
 			<view class="fl al-center heade-info">
-				<image class="avatar" src="/static/image/tabBar/mine.png" mode=""></image>
+				<image class="avatar" :src="userInfo.userinfo && userInfo.userinfo.avatar || '/static/image/tabBar/mine.png'" mode=""></image>
 				<view class="login-register">
-					登录/注册
+				
+					{{ userInfo.userinfo && userInfo.userinfo.username || '登录/注册' }}
+					
 				</view>
 			</view>
 		
@@ -49,6 +51,7 @@
 		data() {
 			return {
 				isShowMask: true,
+				userInfo: uni.getStorageSync('userInfo') || {},
 				meau: [{
 						icon: require('static/image/mine/card.png'),
 						title: '我的账户',

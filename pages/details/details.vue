@@ -36,7 +36,7 @@
 				<view v-if="info.comment && info.comment.data">
 					<commentsItem v-for="item in info.comment.data" :key="item.id" :evaluation="item" />
 				</view>
-				
+
 			</view>
 		</view>
 
@@ -47,8 +47,11 @@
 
 <script>
 	import commentsItem from './commentsItem.vue';
-	
-	import { detail, addComment } from "@/api/api.js"
+
+	import {
+		detail,
+		addComment
+	} from "@/api/api.js"
 	export default {
 		components: {
 			commentsItem
@@ -56,10 +59,12 @@
 		data() {
 			return {
 				query: {
-					limit: 100,
+					limit: 20,
 					page: 1,
 					id: 1,
 				},
+				last_page: 1,
+				commentList: [],
 				info: {},
 				content: ''
 			}
@@ -68,27 +73,64 @@
 			this.query.id = opt.id;
 			this._detail()
 		},
-		// onReachBottom() {
-		// 	this.query.page += 1;
-		// 	this._detail()
-		// },
+		onReachBottom() {
+			if (this.last_page == this.query.page) {
+				return uni.showToast({
+					title: '暂无更多数据',
+					icon: 'none'
+				})
+			}
+			this.query.page += 1;
+			this.getCommentList()
+		},
 		methods: {
+			// 获取评论列表
+			getCommentList() {
+				detail(this.query).then(res => {
+					let {
+						data,
+						last_page
+					} = res.comment;
+					this.last_page = last_page;
+					if (data.length === 0) {
+						return uni.showToast({
+							title: '暂无数据',
+							icon: 'none'
+						})
+					}
+
+					this.commentList.push(...data)
+				})
+			},
+			// 获取详情
 			_detail() {
-				detail(this.query).then(res => this.info = res)
+				detail(this.query).then(res => {
+					this.info = res;
+					this.commentList = res.comment.data
+					this.last_page = res.comment.last_page;
+				})
 			},
 			_addComment() {
-				addComment({content: this.content, ad_id: this.query.id}).then((res) => {
+				if (!this.content.trim()) {
+					return uni.showToast({
+						title: '请输入评价内容',
+						icon: 'none'
+					})
+				}
+				addComment({
+					content: this.content,
+					ad_id: this.query.id
+				}).then((res) => {
 					uni.showToast({
-						title:'评价成功等待管理员审核',
+						title: '评价成功等待管理员审核',
 						icon: 'none'
 					})
 					setTimeout(() => {
 						this.content = ''
-						this._detail()
 					}, 1000)
-					
+
 				})
-				
+
 			}
 		}
 	}
@@ -143,28 +185,32 @@
 		line-height: 73rpx;
 		text-align: center;
 		background: #FFFFFF;
-		
+
 		font-size: 30rpx;
 		color: #000000;
 	}
-	
-	.comments-warp{
+
+	.comments-warp {
 		width: 100%;
 		padding: 18rpx 18rpx 82rpx 25rpx;
 		padding-bottom: 142rpx;
 		background: #fff;
-		.comments-content{
+
+		.comments-content {
 			width: 706rpx;
-			.comments-content-warp{
+
+			.comments-content-warp {
 				height: 60rpx;
 				margin-bottom: 11rpx;
-				.comments-input{
+
+				.comments-input {
 					width: 550rpx;
 					height: 60rpx;
 					background: #F1F1F1;
 					border-radius: 10rpx;
 					padding-left: 23rpx;
 				}
+
 				.send-btn {
 					width: 120rpx;
 					height: 60rpx;
@@ -176,8 +222,8 @@
 					color: #FFFEFE;
 				}
 			}
-			
+
 		}
-		
+
 	}
 </style>

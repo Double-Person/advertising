@@ -17,6 +17,9 @@ export const announcement = data => ajax({ url: '/api/index/ad', data, method: '
 // GET 首页搜索 /api/index/search
 export const search = data => ajax({ url: '/api/index/search', data, method: 'GET' });
 
+// GET 首页广告列表 /api/index/index
+export const indexList = data => ajax({ url: '/api/index/index', data, method: 'GET' });
+
 
 // GET 广告列表 /api/ad/index
 export const announcementList = data => ajax({ url: '/api/ad/index', data, method: 'GET' });
@@ -36,6 +39,11 @@ export const submitAuth = data => ajax({ url: '/api/user/submit_auth', data, met
 // GET 获取我的优惠券 /api/coupon/my_coupon
 export const myCoupon = data => ajax({ url: '/api/coupon/my_coupon', data, method: 'GET', isLogin: true });
 
+// GET 获取小程序手机号 /api/user/get_user_phone
+export const getUserPhone = data => ajax({ url: '/api/user/get_user_phone', data, method: 'GET' });
+
+// GET 小程序授权登录 /api/user/wx_login
+export const wxLogin = data => ajax({ url: '/api/user/wx_login', data, method: 'GET' });
 
 export const upLoadFile = (option) => {
 	if(!option.path) {
@@ -48,14 +56,25 @@ export const upLoadFile = (option) => {
 			mask: true
 		})
 		let token = null;
-		token = '328b0858-aa1a-409c-a7e5-89f45495229d'
-		// try {
-		// 	const value = uni.getStorageSync('HOUSE_TOKEN');
-		// 	if (value) {
-		// 		option.data.token = value
-		// 	}
-		// } catch (e) {
-		// }
+		
+		try {
+			const value = uni.getStorageSync('userInfo');
+			if (value) {
+				token = value.userinfo.token;
+			}
+		} catch (e) {
+			uni.showToast({
+				title: '您还未登录，请先登录',
+				icon: 'none'
+			})
+			setTimeout(() => {
+				uni.navigateTo({
+					url: '/pages/login/login',
+				})
+			}, 1000)
+			return false;
+		}
+		
 		uni.uploadFile({
 			url: baseUrl + '/api/common/upload', //仅为示例，非真实的接口地址
 			filePath: option.path,

@@ -56,11 +56,12 @@
 				font-weight: normal;
 			}
 			.money{
-				font-size: 57rpx;
+				font-size: 44rpx;
 				font-weight: normal;
 			}
 			.rules{
-				font-size: 28rpx;
+				// font-size: 28rpx;
+				font-size: 24rpx;
 				font-weight: normal;
 				color: #FEFEFE;
 

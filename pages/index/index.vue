@@ -44,8 +44,7 @@
 
 			<!-- 广告图 -->
 			<view class="management-img">
-				<image src="/static/image/index/classroom.png" mode=""></image>
-				<view class="over-ellipsis img-tips">啦啦啦啦啦啦啦啦啦啦</view>
+				<advertisingItem v-for="(item, index) in list" :key="item.id" @click.native="toPath(item.id)" :item="item"/>
 			</view>
 
 		</view>
@@ -73,17 +72,23 @@
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
+	
+	import advertisingItem from '@/components/advertisingItem/advertisingItem.vue';
+	
 
 	import {
 		adType,
 		lists,
 		announcement,
 		xieyi,
-		search
+		search,
+		indexList
 	} from "@/api/api.js"
 	import {
 		handImgUrl
 	} from '@/utils/utils.js'
+	
+	import { KEY } from "@/config/index.js"
 
 	export default {
 		components: {
@@ -91,11 +96,12 @@
 			customTabBar,
 			uniPopup,
 			uniPopupMessage,
-			uniPopupDialog
+			uniPopupDialog,
+			
+			advertisingItem
 		},
 		data() {
 			return {
-				key: 'f0d8604522a34fea7af419d353f98e8f',
 				adTypeList: [],
 				bannerList: [],
 				notice: '',
@@ -104,7 +110,8 @@
 				popup: { // // 协议
 					title: '',
 					content: ``,
-				}
+				},
+				list: []
 			}
 		},
 		onLoad() {
@@ -115,57 +122,27 @@
 		},
 		methods: {
 			initPage() {
-				// this.appLoginWx()
-				this.getPoint()
-				Promise.all([adType(), lists(), announcement(), xieyi()]).then(res => {
-					let [adTypeList, bannerList, notice, popup] = res;
+				// this.getPoint()
+				Promise.all([adType(), lists(), announcement(), xieyi(), indexList()]).then(res => {
+					console.log(res)
+					let [adTypeList, bannerList, notice, popup, list] = res;
 					this.adTypeList = adTypeList
 					this.bannerList = bannerList
 					this.notice = notice
 					this.popup = popup
+					this.list = list
 				})
 
 			},
-			// 授权登录
-			appLoginWx() {
-				// #ifdef MP-WEIXIN
-				uni.getProvider({
-					service: 'oauth',
-					success: function(res) {
-						if (~res.provider.indexOf('weixin')) {
-							uni.login({
-								provider: 'weixin',
-								success: (res2) => {
-									console.log(res2)
-									uni.getUserInfo({
-										provider: 'weixin',
-										success: (info) => { //这里请求接口
-											console.log(res2);
-											console.log(info);
-										},
-										fail: (err) => {
-											uni.showToast({ title: "微信登录授权失败", icon: "none" });
-										}
-									})
-
-								},
-								fail: () => {
-									uni.showToast({ title: "微信登录授权失败", icon: "none" });
-								}
-							})
-
-						} else {
-							uni.showToast({
-								title: '请先安装微信或升级版本',
-								icon: "none"
-							});
-						}
-					}
-				});
-				//#endif
-			},
+				
+			
 			handImgUrls(url) {
 				return handImgUrl(url)
+			},
+			toPath(id) {
+				uni.navigateTo({
+					url: '/pages/details/details?id=' + id,
+				})
 			},
 			// 关闭弹窗
 			close() {
@@ -234,6 +211,7 @@
 
 				});
 			},
+			
 			// 经纬度转坐标位置
 			conversionPoint(res) {
 				uni.setStorageSync('location', res)
@@ -241,7 +219,7 @@
 					url: "https://restapi.amap.com/v3/geocode/regeo?parameters",
 					method: 'GET',
 					data: {
-						key: this.key,
+						key: KEY,
 						location: `${res.longitude}, ${res.latitude}`
 					},
 					success: (data) => {
@@ -351,7 +329,6 @@
 		}
 	}
 
-
 	.tips {
 		width: 668rpx;
 		height: 90rpx;
@@ -403,32 +380,8 @@
 		}
 	}
 
-	.management-img {
-		margin: 0 auto;
-		width: 705rpx;
-		height: 228rpx;
-		border-radius: 10rpx;
-		position: relative;
-
-		image {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
-
-		.img-tips {
-			position: absolute;
-			bottom: 0;
-			width: 661rpx;
-			padding: 0 22rpx;
-			height: 52rpx;
-			line-height: 52rpx;
-			background: #000000;
-			opacity: 0.5;
-			border-radius: 0 0 10rpx 10rpx;
-			color: #fff;
-			font-size: 20rpx;
-		}
-
+	.management-img{
+		margin-bottom: 200rpx;
 	}
+
 </style>

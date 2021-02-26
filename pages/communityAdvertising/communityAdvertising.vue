@@ -25,6 +25,7 @@
 		},
 		data() {
 			return {
+				last_page: 1,
 				isShowSearch: false,  // 是否显示搜索框
 				query: {
 					page: 1,
@@ -53,6 +54,12 @@
 		},
 		onReachBottom() {
 			if(!this.isShowSearch) {
+				if (this.last_page == this.page) {
+					return uni.showToast({
+						title: '暂无更多数据',
+						icon: 'none'
+					})
+				}
 				this.query.page += 1;
 				this.getList()
 			}
@@ -60,10 +67,16 @@
 		methods: {
 			getList() {
 				announcementList(this.query).then(res => {
-					if(this.list.length === res.total) {
-						return false;
+					let { last_page, data } = res;
+					this.last_page = last_page;
+					if (data.length === 0) {
+						return uni.showToast({
+							title: '暂无数据',
+							icon: 'none'
+						})
 					}
-					this.list.push(...res.data)
+					
+					this.list.push(...data)
 				})
 			},
 			getLocation() {
@@ -116,8 +129,8 @@
 					key: val.value || '',
 					limit: 100,
 					page: 1,
-					lng: '104.06476', // this.query.lng,  // 104.06476
-					lat: '30.5702', // this.query.lat  // 30.5702
+					lng: this.query.lng,  // 104.06476
+					lat: this.query.lat  // 30.5702
 				}
 				search(obj).then(res => {
 					if(this.list.length === res.total) {

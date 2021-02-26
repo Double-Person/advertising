@@ -5,9 +5,9 @@ import {
 } from './loading.js'
 import { toIndex } from "@/utils/utils.js"
 
-let baseUrl_ = 'http://6161gg.hkzhtech.com'
+let baseUrl_ = 'https://6161gg.hkzhtech.com'
 // #ifdef H5   
-baseUrl_ = 'http://6161gg.hkzhtech.com'
+baseUrl_ = 'https://6161gg.hkzhtech.com'
 // #endif
 
 // #ifdef APP-PLUS
@@ -22,27 +22,37 @@ export const ajax = (option) => {
 		throw new TypeError('请求地址不能为空')
 		return false
 	}
-	return new Promise((resolve, reject) => {
-		if (option.isLogin) {
-			// console.log('需要登录')
-			// toIndex()
-			// return false
-		} else {
-			// console.log('不需要登录')
-		}
+	return new Promise(async (resolve, reject) => {
+		
 		let token = null;
-		token = '328b0858-aa1a-409c-a7e5-89f45495229d'
-		// try {
-		// 	const value = uni.getStorageSync('HOUSE_TOKEN');
-		// 	if (value) {
-		// 		option.data.token = value
-		// 	}
-		// } catch (e) {
-		// }
+		
+		try {
+			const value = await uni.getStorageSync('userInfo');
+			console.log(value)
+			if (value) {
+				
+				token = value.userinfo.token;
+				console.log(token);
+				// return false
+			}
+		} catch (e) {
+			console.log('===', e)
+			await uni.showToast({
+				title: '您还未登录，请先登录',
+				icon: 'none'
+			})
+			setTimeout(() => {
+				uni.navigateTo({
+					url: '/pages/login/login',
+				})
+			}, 1000)
+			return false;
+		}
+		
 
-		showLoading()
+		await showLoading()
 
-		uni.request({
+		await uni.request({
 			url: baseUrl + option.url,
 			data: option.data || {},
 			method: option.method || 'GET',
@@ -57,6 +67,19 @@ export const ajax = (option) => {
 					showToast({
 						title: res.data.msg || '请求失败'
 					})
+				}
+				if(res.data.code == 401) {
+					uni.showToast({
+						title: '登录过期，请重新登录',
+						icon: 'none'
+					})
+					uni.removeStorageSync('userInfo');
+					setTimeout(() => {
+						uni.navigateTo({
+							url: '/pages/login/login',
+						})
+					}, 1000)
+					return false;
 				}
 				resolve(res.data.data);
 			},
