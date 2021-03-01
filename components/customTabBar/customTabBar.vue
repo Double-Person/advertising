@@ -8,6 +8,7 @@
 </template>
 
 <script>
+	import {checkAuth} from "@/api/api.js"
 	export default {
 		props: {
 			active: {
@@ -39,8 +40,27 @@
 		},
 		methods: {
 			toPage(item, index) {
+				if(item.text =='发布') {
+					this._checkAuth();
+					return false;
+				}
 				uni.navigateTo({
 					url: item.pagePath
+				})
+			},
+			_checkAuth() {
+				checkAuth().then(res => {
+					// -1 认证失败 0未认证 1认证中 2通过
+					console.log(res)
+					if(res == 2) {
+						uni.navigateTo({
+							url: '/pages/publish/publish'
+						})
+					}else {
+						uni.navigateTo({
+							url: '/pages/releaseCertification/releaseCertification'
+						})
+					}
 				})
 			}
 		}

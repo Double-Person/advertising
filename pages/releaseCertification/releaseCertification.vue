@@ -2,11 +2,11 @@
 	<view class="publish-form">
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">小区名称：</text>
-			<input class="uni-input input" maxlength="10" v-model="form.house_name" placeholder="请输入小区名称" placeholder-class="placeholder-class"  />
+			<input :maxlength="100" class="uni-input input" maxlength="10" v-model="form.house_name" placeholder="请输入小区名称" placeholder-class="placeholder-class"  />
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">物业名称：</text>
-			<input class="uni-input input" maxlength="10" v-model="form.property_name"  placeholder="请输入物业名称" placeholder-class="placeholder-class"  />
+			<input :maxlength="100" class="uni-input input" maxlength="10" v-model="form.property_name"  placeholder="请输入物业名称" placeholder-class="placeholder-class"  />
 		</view>
 		
 		
@@ -62,7 +62,6 @@
 		},
 		methods: {
 			submit() {
-				console.log(this.form);
 				let { house_name, property_name, yyzz_image, my_image, other_ad_image } = this.form;
 				if(!house_name) {
 					return this.showToast('请输入小区名称')

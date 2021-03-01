@@ -31,10 +31,7 @@ export const detail = data => ajax({ url: '/api/ad/detail', data, method: 'GET' 
 export const addComment = data => ajax({ url: '/api/ad/add_comment', data, method: 'GET', isLogin: true });
 
 // GET 发布广告 /api/ad/add_ad
-export const add_ad = data => ajax({ url: '/api/ad/add_ad', data, method: 'GET', isLogin: true });
-
-// GET 提交认证 /api/user/submit_auth
-export const submitAuth = data => ajax({ url: '/api/user/submit_auth', data, method: 'GET', isLogin: true });
+export const add_ad = data => ajax({ url: '/api/ad/add_ad', data, method: 'GET', isLogin: true, showMsg: true });
 
 // GET 获取我的优惠券 /api/coupon/my_coupon
 export const myCoupon = data => ajax({ url: '/api/coupon/my_coupon', data, method: 'GET', isLogin: true });
@@ -44,6 +41,16 @@ export const getUserPhone = data => ajax({ url: '/api/user/get_user_phone', data
 
 // GET 小程序授权登录 /api/user/wx_login
 export const wxLogin = data => ajax({ url: '/api/user/wx_login', data, method: 'GET' });
+
+// 
+// GET 检查认证状态 -1 认证失败 0未认证 1认证中 2通过 /api/user/check_auth
+export const checkAuth = data => ajax({ url: '/api/user/check_auth', data, method: 'GET', isLogin: true });
+
+// GET 提交认证 /api/user/submit_auth
+export const submitAuth = data => ajax({ url: '/api/user/submit_auth', data, method: 'GET', isLogin: true, showMsg: true });
+
+// GET 提交身份证 /api/user/submit_card
+export const submitCard = data => ajax({ url: '/api/user/submit_card', data, method: 'GET', isLogin: true });
 
 export const upLoadFile = (option) => {
 	if(!option.path) {

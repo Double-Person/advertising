@@ -18,3 +18,12 @@ export const toIndex = () => {
 	})
 }
 
+
+export const redirectFn = (title) => {
+	uni.showToast({ title, icon: 'none' })
+	setTimeout(() => {
+		uni.navigateTo({
+			url: '/pages/login/login',
+		})
+	}, 1000)
+}

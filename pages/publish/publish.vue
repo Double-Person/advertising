@@ -10,24 +10,20 @@
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">填写详情：</text>
-			<textarea auto-height placeholder="请填写广告详情" class="textarea" placeholder-class="placeholder-class" v-model="form.content" />
+			<textarea :maxlength="100" auto-height placeholder="请填写广告详情" class="textarea" placeholder-class="placeholder-class" v-model="form.content" />
 		</view>
 		
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">填写地址：</text>
-			<input class="uni-input input" maxlength="10" placeholder="请填写地址" placeholder-class="placeholder-class" v-model="form.address" />
+			<input :maxlength="100" class="uni-input input" maxlength="10" placeholder="请填写地址" placeholder-class="placeholder-class" v-model="form.address" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">填写价格：</text>
-			<input class="uni-input input" maxlength="10" placeholder="请填写价格" placeholder-class="placeholder-class" v-model.number="form.price" />
+			<input :maxlength="100" class="uni-input input" maxlength="10" placeholder="请填写价格" placeholder-class="placeholder-class" v-model.number="form.price" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">上传图片：</text>
-			<view class="fl">
-				<!-- 126*126 -->
-				<up-load-file @success="success" />
-				<up-load-file @success="success" style="margin-left: 48rpx;" />
-			</view>
+			<up-load-file @success="success" multiple :max="6" />
 		</view>
 		
 		
@@ -56,6 +52,7 @@
 			return {
 				checkText: '请选择分类',
 				imgs: [],
+				// 分类列表
 				list: [],
 				form: {
 					type_id: '',
@@ -81,8 +78,9 @@
 		},
 		methods: {
 			// 文件上传
-			success(val) {
-				
+			success(imgs) {
+				this.imgs = imgs;
+				this.form.images = imgs.join(',')
 			},
 			// 发布广告
 			async _add_ad() {
@@ -105,8 +103,29 @@
 					}
 					return false
 				}
+				
+				if(this.form.type_id == '' || this.form.type_id == undefined) {
+					return uni.showToast({ title: '请选择分类', icon: 'none' })
+				}
+				if(!this.form.content) {
+					return uni.showToast({ title: '请输入详情', icon: 'none' })
+				}
+				if(!this.form.address) {
+					return uni.showToast({ title: '请输入地址', icon: 'none' })
+				}
+				if(!this.form.price) {
+					return uni.showToast({ title: '请输入价格', icon: 'none' })
+				}
+				
+				if(this.imgs.length === 0) {
+					return uni.showToast({ title: '请上传图片', icon: 'none' })
+				}
+				
 				await add_ad(this.form).then(res => {
-					console.log(res)
+					uni.showToast({
+						title: res.msg || '请求失败',
+						icon: 'none'
+					})
 				})
 			},
 			// 获取分类列表

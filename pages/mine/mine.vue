@@ -62,6 +62,11 @@
 						title: '立即分享'
 					},
 					{
+						icon: require('static/image/mine/team.png'),
+						title: '实名认证',
+						path: '/pages/uploadIDCard/uploadIDCard'
+					},
+					{
 						icon: require('static/image/mine/coupons.png'),
 						title: '优惠券',
 						path: '/pages/coupons/coupons'

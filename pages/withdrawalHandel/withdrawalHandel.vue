@@ -4,14 +4,14 @@
 		<view class="balance">
 			<text class="title">账户余额提现到微信</text>
 			<view class="fl input">
-				￥<input type="text" value="" />
+				<text>￥</text><input type="text" value="123" />
 			</view>
-			<view class="fl jc-between bottom">
+			<view class="fl jc-between al-center bottom">
 				<view class="show-money">
 					账户余额：￥200.00
 				</view>
 
-				<view class="withdrawal-btn">
+				<view class="withdrawal-btn" @click="allWithdrawal">
 					全部提现
 				</view>
 			</view>
@@ -19,7 +19,7 @@
 
 
 
-		<view class="common-btn btn">
+		<view class="common-btn btn" @click="withdrawal">
 			立即提现
 		</view>
 	</view>
@@ -33,7 +33,12 @@
 			}
 		},
 		methods: {
-
+			// 全部提现
+			allWithdrawal(){
+				
+			},
+			// 提现
+			withdrawal() {}
 		}
 	}
 </script>
@@ -63,13 +68,15 @@
 			padding-bottom: 23rpx;
 			font-size: 72rpx;
 			font-weight: 500;
+		
 			input {
-				margin-left: 45rpx;
+				margin-left: 15rpx;
+				margin-top: 34rpx;
+				font-size: 45rpx;
 			}
 		}
 		.bottom{
 			margin: 73rpx auto 10rpx auto;
-			
 			.show-money{
 				font-size: 28rpx;
 				font-weight: 400;
