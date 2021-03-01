@@ -42,6 +42,8 @@
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
+	
+	import {getUserinfo} from "@/api/api.js"
 	export default {
 		components: {
 			uniPopup,
@@ -74,9 +76,18 @@
 				]
 			}
 		},
+		onLoad() {
+			this._getUserinfo()
+		},
 		methods: {
 			isShow() {
 				this.isShowMask = false
+			},
+			// 获取用户所有资料
+			_getUserinfo() {
+				getUserinfo().then(res => {
+					uni.setStorageSync('allInfo', res)
+				})
 			},
 			toPath(url) {
 				if (!url) {

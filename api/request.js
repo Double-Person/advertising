@@ -45,16 +45,16 @@ export const ajax = (option) => {
 				token = value.userinfo.token;
 			}
 		} catch (e) {
-			await uni.showToast({
-				title: '您还未登录，请先登录',
-				icon: 'none'
-			})
-			setTimeout(() => {
-				uni.navigateTo({
-					url: '/pages/login/login',
-				})
-			}, 1000)
-			// await redirectFn('您还未登录，请先登录')
+			// await uni.showToast({
+			// 	title: '您还未登录，请先登录',
+			// 	icon: 'none'
+			// })
+			// setTimeout(() => {
+			// 	uni.navigateTo({
+			// 		url: '/pages/login/login',
+			// 	})
+			// }, 1000)
+			await redirectFn('您还未登录，请先登录')
 			return false;
 		}
 
@@ -90,7 +90,13 @@ export const ajax = (option) => {
 						return false;
 						break;
 					case 1:
-						resolve(data);
+						if(option.needCode) {
+							resolve(res.data);
+						}else {
+							resolve(data);
+						}
+						
+						
 						break;
 					default:
 						showToast({

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<!-- #ifdef MP-WEIXIN -->
+		
 		<view v-if="isCanUse">
 			<view>
 				<view class='header'>
@@ -16,7 +16,7 @@
 				</button>
 			</view>
 		</view>
-		<!-- #endif -->
+		
 	</view>
 </template>
 
@@ -36,12 +36,12 @@
 			};
 		},
 		onLoad() { //默认加载
-			// this.login();
 			this.appLoginWx()
 		},
 		methods: {
 			_wxLogin(info) {
 				wxLogin(info).then(res => {
+					console.log(res)
 					uni.setStorageSync('userInfo', res)
 					uni.navigateTo({
 						url: '../index/index'
@@ -61,47 +61,7 @@
 				}catch(e){
 					//TODO handle the exception
 				}
-				return false;
-				// #ifdef MP-WEIXIN
-				uni.getProvider({
-					service: 'oauth',
-					success: (res) => {
-						if (!res.provider.includes('weixin')) {
-							return uni.showToast({
-								title: '请先安装微信或升级版本',
-								icon: "none"
-							});
-						}
-						uni.login({
-							provider: 'weixin',
-							success: (res2) => {
-								uni.getUserInfo({
-									provider: 'weixin',
-									success: infoRes => {
-										
-										let { encryptedData, iv, signature, rawData, userInfo: { avatarUrl } } = infoRes;
-										let obj = {
-											code: res2.code,
-											encryptedData,
-											iv,
-											signature,
-											raw_data: rawData
-										}
-										this._wxLogin(obj)
-
-									}
-								});
-							},
-							fail: () => {
-								uni.showToast({
-									title: "微信登录授权失败",
-									icon: "none"
-								});
-							}
-						})
-					}
-				});
-				//#endif
+				
 			},
 
 			//第一授权获取用户信息===》按钮触发
@@ -146,54 +106,7 @@
 
 			},
 
-			//登录
-			login() {
-				let _this = this;
-				uni.showLoading({
-					title: '登录中...',
-					mask: true
-				});
-				// 1.wx获取登录用户code
-				uni.login({
-					provider: 'weixin',
-					success: function(loginRes) {
-						console.log(loginRes)
-						let code = loginRes.code;
-						if (!_this.isCanUse) {
-							//非第一次授权获取用户信息
-							uni.getUserInfo({
-								provider: 'weixin',
-								success: function(infoRes) {
-									console.log(infoRes)
-									//获取用户信息后向调用信息更新方法
-									let nickName = infoRes.userInfo.nickName; //昵称
-									let avatarUrl = infoRes.userInfo.avatarUrl; //头像
-									_this.updateUserInfo(); //调用更新信息方法
-								}
-							});
-						}
-
-						//2.将用户登录code传递到后台置换用户SessionKey、OpenId等信息
-						uni.request({
-							url: '服务器地址',
-							data: {
-								code: code,
-							},
-							method: 'GET',
-							header: {
-								'content-type': 'application/json'
-							},
-							success: (res) => {
-								//openId、或SessionKdy存储//隐藏loading
-								uni.hideLoading();
-							}
-						});
-					},
-					fail(err) {
-						console.log(err)
-					}
-				});
-			},
+			
 
 		},
 

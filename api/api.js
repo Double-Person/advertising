@@ -42,7 +42,7 @@ export const getUserPhone = data => ajax({ url: '/api/user/get_user_phone', data
 // GET 小程序授权登录 /api/user/wx_login
 export const wxLogin = data => ajax({ url: '/api/user/wx_login', data, method: 'GET' });
 
-// 
+ 
 // GET 检查认证状态 -1 认证失败 0未认证 1认证中 2通过 /api/user/check_auth
 export const checkAuth = data => ajax({ url: '/api/user/check_auth', data, method: 'GET', isLogin: true });
 
@@ -51,6 +51,12 @@ export const submitAuth = data => ajax({ url: '/api/user/submit_auth', data, met
 
 // GET 提交身份证 /api/user/submit_card
 export const submitCard = data => ajax({ url: '/api/user/submit_card', data, method: 'GET', isLogin: true });
+
+// GET 创建订单并发起支付请求 /api/withdraw/submit
+export const withdraw = data => ajax({ url: '/api/withdraw/submit', data, method: 'GET', isLogin: true, showMsg: true, needCode: true });
+
+// GET 获取用户所有信息 /api/user/get_userinfo
+export const getUserinfo = data => ajax({ url: '/api/user/get_userinfo', data, method: 'GET', isLogin: true });
 
 export const upLoadFile = (option) => {
 	if(!option.path) {
@@ -92,9 +98,7 @@ export const upLoadFile = (option) => {
 			},
 			
 			success: (uploadFileRes) => {
-				
 				let res = JSON.parse(uploadFileRes.data)
-				console.log(res)
 				if(res.code != 1) {
 					uni.showToast({ title: res.data.msg|| '图片上传失败', icon: 'none' })
 					reject(res.data);

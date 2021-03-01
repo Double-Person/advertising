@@ -2,7 +2,7 @@
 	<view class="publish-form">
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">选择分类：</text>
-			<!-- <input class="" maxlength="10" placeholder="最大输入长度为10" placeholder-class="placeholder-class" /> -->
+			<!-- <input class="" placeholder="最大输入长度为10" placeholder-class="placeholder-class" /> -->
 			<view class="uni-input input fl jc-between al-center select" @click="selectOption">
 				<text>{{ checkText }}</text>
 				<image src="/static/image/select.png" mode=""></image>
@@ -15,11 +15,11 @@
 		
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">填写地址：</text>
-			<input :maxlength="100" class="uni-input input" maxlength="10" placeholder="请填写地址" placeholder-class="placeholder-class" v-model="form.address" />
+			<input :maxlength="100" class="uni-input input" placeholder="请填写地址" placeholder-class="placeholder-class" v-model="form.address" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">填写价格：</text>
-			<input :maxlength="100" class="uni-input input" maxlength="10" placeholder="请填写价格" placeholder-class="placeholder-class" v-model.number="form.price" />
+			<input :maxlength="100" class="uni-input input" placeholder="请填写价格" placeholder-class="placeholder-class" v-model.number="form.price" />
 		</view>
 		<view class="fl fl-nowrap al-center item">
 			<text class="common-form-label label">上传图片：</text>

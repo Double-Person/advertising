@@ -4,7 +4,7 @@
 		<view class="balance">
 
 			<view class="title">账户余额</view>
-			<view class="num">￥ 200</view>
+			<view class="num">￥ {{ userInfo.money || 0 }}</view>
 		</view>
 
 		<view class="common-btn btn" @click="toPath">
@@ -21,13 +21,13 @@
 	export default {
 		data() {
 			return {
-
+				userInfo: uni.getStorageSync('allInfo') || {},
 			}
 		},
 		methods: {
 			toPath() {
 				uni.navigateTo({
-					url: '../withdrawalHandel/withdrawalHandel'
+					url: '../withdrawalHandel/withdrawalHandel?money=' + this.userInfo.money
 				})
 			}
 		}
