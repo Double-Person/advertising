@@ -35,7 +35,7 @@
 				isCanUse: uni.getStorageSync('isCanUse') || true //默认为true 记录是否第一次授权
 			};
 		},
-		onLoad() { //默认加载
+		onLoad(opt) { //默认加载
 			this.appLoginWx()
 		},
 		methods: {

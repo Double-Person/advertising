@@ -21,17 +21,14 @@
 				</view>
 			</view>
 		
-			<!-- <uni-popup ref="popup" type="share">
-			    <uni-popup-share title="分享到" @select="select"></uni-popup-share>
-			</uni-popup> -->
-		
 			<customTabBar :active="2" />
-		</view>
+		</view> 
 	
 		<view class="warp-mask" @click="isShow" v-if="isShowMask">
 			<image src="/static/image/mine/arrow@2x.png" mode="" class="arrow"></image>
 			<view class="share-warp">
-				微信分享得“优惠券”，分享人数与面额为：分享1人得10元（满100可用）。使用方法付款时，点击“我的优惠券”，点击“优惠券面额”选择大小，用户每次消费只能消耗一张优惠券
+				微信分享得“优惠券”，分享人数与面额为：分享1人得10元（满100可用）。使用方法付款时，点击“我的优惠券”，点击“优惠券面额”选择大小，
+				用户每次消费只能消耗一张优惠券。
 			</view>
 		</view>
 	</view>
@@ -39,17 +36,9 @@
 </template>
 
 <script>
-	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
-	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
-	
 	import {getUserinfo} from "@/api/api.js"
 	export default {
-		components: {
-			uniPopup,
-			uniPopupMessage,
-			uniPopupDialog
-		},
+		
 		data() {
 			return {
 				isShowMask: true,
@@ -79,6 +68,16 @@
 		onLoad() {
 			this._getUserinfo()
 		},
+		onShareAppMessage(res) {
+		    if (res.from === 'button') {// 来自页面内分享按钮
+		      console.log(res);
+		      console.log(res.target)
+		    }
+		    return {
+		      title: '自定义分享标题',
+		      path: '/pages/index/index?id=123'
+		    }
+		  },
 		methods: {
 			isShow() {
 				this.isShowMask = false

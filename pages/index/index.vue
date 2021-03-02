@@ -114,17 +114,17 @@
 				list: []
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			console.log(e)
 			this.initPage()
 			this.$nextTick(() => {
-				// this.$refs.popup.open()
+				this.$refs.popup.open()
 			})
 		},
 		methods: {
 			initPage() {
-				// this.getPoint()
+				// this.getPoint();
 				Promise.all([adType(), lists(), announcement(), xieyi(), indexList()]).then(res => {
-					console.log(res)
 					let [adTypeList, bannerList, notice, popup, list] = res;
 					this.adTypeList = adTypeList
 					this.bannerList = bannerList
